@@ -8,11 +8,11 @@ def afegir_llib(db):
                 match categoria[1]:
                     case bool():
                         print("bool")
-                        dades.update({categoria[0] : bool(input(f"Introdueix la seguent dada: {categoria[0]}"))})
+                        dades.update({categoria[0] : bool(input(f"Introdueix la dada {categoria[0]}"))})
                     case int():
-                        dades.update({categoria[0] : int(input(f"Introdueix la seguent dada: {categoria[0]}"))})
+                        dades.update({categoria[0] : int(input(f"Introdueix la dada {categoria[0]}"))})
                     case str():
-                        dades.update({categoria[0] : input(f"Introdueix la seguent dada: {categoria[0]}")})
+                        dades.update({categoria[0] : input(f"Introdueix la dada {categoria[0]}")})
                 break
             except ValueError:
                 pedro_sanchez = str()
