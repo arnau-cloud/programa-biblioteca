@@ -1,5 +1,5 @@
 #Funció per a afegir llibres
-def afegir_llib(db):
+def input_categor(db):
     dades = dict()
     for categoria in zip(db[0].keys(), db[0].values()):
         while True:
@@ -24,8 +24,14 @@ def afegir_llib(db):
                     case str():
                         pedro_sanchez = "un text"
                 print(f"incompatible, la dada ha de ser {pedro_sanchez}")
-    db.append(dades)
+    return dades
 
+def cerc_llib(db, parametres):
+    for categoria in zip(db[0].keys(), db[0].values()):
+        for categoria in zip(parametres[0].keys(), parametres[0].values()):
+            
+def afegir_llib(db):
+    db.append(input_categor(db))
 
 def elim_llibre():
     print("eliminant llibre")
