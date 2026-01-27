@@ -1,3 +1,4 @@
+import os
 #Funció per a afegir llibres
 def input_categor(db, demanarPrestat: bool):
     dades = dict()
@@ -43,11 +44,13 @@ def cerc_llib(db, parametres):
             break
     if coincidències > 2: return index1
 
-def afegir_llib(db):
-    llibre = input_categor(db, True)
+def afegir_llib(db, llibre):
+    if llibre == None:
+        llibre = input_categor(db, True)
     position = cerc_llib(db, llibre)
     if position == None:
         print(f"S'afegirà el llibre: {llibre}")
+        db.append(llibre)
     else:
         print(f"Ja existeix el llibre: {db[position]}, \nno s'afegirà")
 
@@ -69,23 +72,43 @@ def elim_llibre(db):
         llibre = input_categor(db, False)
         posLlibre = cerc_llib(db, llibre)
         if posLlibre != None:
-            res = input(f"Vols eliminar el llibre {db[posLlibre]}\n(S/N)").lower()
-            if res == "s":
+            ans = input(f"Vols eliminar el llibre {db[posLlibre]}\n(s/n)").lower()
+            if ans == "s":
                 db.pop(posLlibre)
                 print("Eliminat")
                 break
-            if res == "n":
+            if ans == "n":
                 print("ok, ciao")
                 break
         else:
-            res = input("El llibre no existeix, vols tornar-ho a intentar?(S/N)").lower()
-            if res == "s":
+            ans = input("El llibre no existeix, vols tornar-ho a intentar?(s/n)").lower()
+            if ans == "s":
                 continue
-            if res == "n":
+            if ans == "n":
                 break
 
 def llistat_llibres(db):
     for index in range(1, len(db)):
+        term_size = os.get_terminal_size()
+        print('-' * term_size.columns)
         for categoria in zip(db[index].keys(), db[index].values()):
-            for index2 in range(0, len(categoria)):
-                print(categoria)
+                print(categoria[0], categoria[1])
+
+def canviar_estat(db):
+    print("De quin llibre vols canviar l'estat: ")
+    llibre = input_categor(db, False)
+    posllib = cerc_llib(db, llibre)
+    if posllib == None:
+        ans = input("El llibre no existeix, vols afegir-lo?(s/n): ").lower()
+        if ans == "s":
+            afegir_llib(db, llibre)
+    else:
+        for categoria in zip(db[posllib].keys(), db[posllib].values()):
+            if (categoria[0] == "Prestat: ") and (categoria[1] == True):
+                ans = input(f"Vols editar el llibre {llibre} a NO prestat(s/n): ").lower()
+                if ans == "s":
+                    db[posllib].update({"Prestat: " : False})
+            elif (categoria[0] == "Prestat: ") and (categoria[1] == False):
+                ans = input(f"Vols editar el llibre {llibre} a SI prestat(s/n): ").lower()
+                if ans == "s":
+                    db[posllib].update({"Prestat: " : True})
