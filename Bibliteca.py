@@ -1,7 +1,5 @@
 from Biblteca_funcións import *
 
-llibres = [{"Títol: ": "", "Autor: ": "", "Any-publicació: ": int(), "Prestat: ": bool()}, {"Títol: ": "A", "Autor: ": "A", "Any-publicació: ": 1998, "Prestat: ": True}]
-print(len(llibres))
+llibres = [{"Títol: ": "", "Autor: ": "", "Any-publicació: ": int(), "Prestat: ": bool()}, {"Títol: ": "a", "Autor: ": "a", "Any-publicació: ": 1998, "Prestat: ": True}]
 
-print(cerc_llib(llibres, {"Títol: ": "A", "Autor: ": "A", "Any-publicació: ": 1998, "Prestat: ": True}))
-print(llibres)
+llistat_llibres(llibres)
