@@ -5,22 +5,28 @@ def input_categor(db, demanarPrestat: bool):
     for categoria in zip(db[0].keys(), db[0].values()):
         while True:
             try:
-                if (demanarPrestat == False) and (categoria[0] == "Prestat: "):
+                if (demanarPrestat == False) and (categoria[0] == "Prestat"):
                     break
                 else:
                     match categoria[1]:
                         case bool():
-                            dades.update({categoria[0] : bool(input(f"Introdueix la dada {categoria[0]}"))})
+                            ans = input(f"Introdueix la dada {categoria[0]} (s/n): ")
+                            if ans == "s":
+                                dades.update({categoria[0] : True})
+                            elif ans == "n":
+                                dades.update({categoria[0] : False})
+                            else:
+                                raise ValueError
                         case int():
-                            dades.update({categoria[0] : int(input(f"Introdueix la dada {categoria[0]}"))})
+                            dades.update({categoria[0] : int(input(f"Introdueix la dada {categoria[0]}: "))})
                         case str():
-                            dades.update({categoria[0] : (input(f"Introdueix la dada {categoria[0]}").lower())})
+                            dades.update({categoria[0] : (input(f"Introdueix la dada {categoria[0]}: ").lower())})
                     break
             except ValueError:
                 pedro_sanchez = str()
                 match categoria[1]:
                     case bool():
-                        pedro_sanchez = "un bolea(True/False)"
+                        pedro_sanchez = "s o n (si/no)"
                     case int():
                         pedro_sanchez = "un nombre"
                     case str():
@@ -29,11 +35,11 @@ def input_categor(db, demanarPrestat: bool):
     return dades
 
 def cerc_llib(db, parametres):
-    coincidències = int(); index1 = int()
-    for index1 in range(1, len(db)):
+    coincidències = int(); index = int()
+    for index in range(1, len(db)):
         if coincidències < 2:
-            for categoria in zip(db[index1].keys(), db[index1].values()):
-                        if categoria[0] != 'Prestat: ':
+            for categoria in zip(db[index].keys(), db[index].values()):
+                        if categoria[0] != 'Prestat':
                             for categoria2 in zip(parametres.keys(), parametres.values()):
                                 if categoria == categoria2:
                                     coincidències += 1
@@ -42,9 +48,9 @@ def cerc_llib(db, parametres):
                             break
         else:
             break
-    if coincidències > 2: return index1
+    if coincidències > 2: return index - 1
 
-def afegir_llib(db, llibre):
+def afegir_llib(db, llibre = None):
     if llibre == None:
         llibre = input_categor(db, True)
     position = cerc_llib(db, llibre)
@@ -54,38 +60,38 @@ def afegir_llib(db, llibre):
     else:
         print(f"Ja existeix el llibre: {db[position]}, \nno s'afegirà")
 
-#    coincidencies = 0
-#    for entrades in db:
-#        if not(llibre == entrades):
-#            db.append(llibre)
-#            break
-#        else:
-#            coincidencies += 1
-#            break
-#    if coincidencies != 0:
-#        if input(f"Hi ha una entrada en la que coincideixen {coincidencies} paràmetres, vols afegir el llibre igualment? (s/n): ") == "s":
-#            db.append(llibre)
-
 def elim_llibre(db):
-    while True:
+    cont = True;
+    while cont == True:
         print("Quin llibre vols eliminar?: ")
         llibre = input_categor(db, False)
         posLlibre = cerc_llib(db, llibre)
         if posLlibre != None:
-            ans = input(f"Vols eliminar el llibre {db[posLlibre]}\n(s/n)").lower()
-            if ans == "s":
-                db.pop(posLlibre)
-                print("Eliminat")
-                break
-            if ans == "n":
-                print("ok, ciao")
-                break
+            while True:
+                ans = input(f"Vols eliminar el llibre {db[posLlibre]}\n(s/n): ").lower()
+                if ans == "s":
+                    db.pop(posLlibre)
+                    print("Eliminat")
+                    cont = False
+                    break
+                if ans == "n":
+                    print("ok, ciao")
+                    cont = False
+                    break
+                else:
+                    print("Incompatible, ha de ser s o n (si/no)")
+                    continue
         else:
-            ans = input("El llibre no existeix, vols tornar-ho a intentar?(s/n)").lower()
-            if ans == "s":
-                continue
-            if ans == "n":
-                break
+            while True:
+                ans = input("El llibre no existeix, vols tornar a intentar-ho?(s/n): ").lower()
+                if ans == "s":
+                    break
+                if ans == "n":
+                    cont = False
+                    break
+                else:
+                    print("Incompatible, ha de ser s o n (si/no)")
+                    continue
 
 def llistat_llibres(db):
     for index in range(1, len(db)):
@@ -102,13 +108,23 @@ def canviar_estat(db):
         ans = input("El llibre no existeix, vols afegir-lo?(s/n): ").lower()
         if ans == "s":
             afegir_llib(db, llibre)
+        
     else:
         for categoria in zip(db[posllib].keys(), db[posllib].values()):
-            if (categoria[0] == "Prestat: ") and (categoria[1] == True):
+            if (categoria[0] == "Prestat") and (categoria[1] == True):
                 ans = input(f"Vols editar el llibre {llibre} a NO prestat(s/n): ").lower()
-                if ans == "s":
+                if ans == "s" or "":
                     db[posllib].update({"Prestat: " : False})
-            elif (categoria[0] == "Prestat: ") and (categoria[1] == False):
+            elif (categoria[0] == "Prestat") and (categoria[1] == False):
                 ans = input(f"Vols editar el llibre {llibre} a SI prestat(s/n): ").lower()
-                if ans == "s":
+                if ans == "s" or "":
                     db[posllib].update({"Prestat: " : True})
+
+def llistar_autors(db):
+    llistat = list()
+    for index in range(1, len(db)):
+        for categoria in zip(db[index].keys(), db[index].values()):
+            if categoria[0] == "Autor" and (not(categoria[1] in llistat)):
+                llistat.append(categoria[1])
+    for a in llistat:
+        print(a)
