@@ -11,7 +11,7 @@ def input_categor(db, demanarPrestat: bool):
                 else:
                     match categoria[1]:
                         case bool():
-                            ans = input(f"            Introdueix si està {categoria[0]} (s/n): ")
+                            ans = input(f"\t╚{"═"*5}> Introdueix si està {categoria[0]} (s/n): ")
                             if ans == "s":
                                 dades.update({categoria[0] : True})
                             elif ans == "n":
@@ -19,9 +19,9 @@ def input_categor(db, demanarPrestat: bool):
                             else:
                                 raise ValueError
                         case int():
-                            dades.update({categoria[0] : int(input(f"            Introdueix la dada {categoria[0]}: "))})
+                            dades.update({categoria[0] : int(input(f"\t╚{"═"*5}> Introdueix la dada {categoria[0]}: "))})
                         case str():
-                            dades.update({categoria[0] : (input(f"              Introdueix la dada {categoria[0]}: ").lower().strip())})
+                            dades.update({categoria[0] : (input(f"\t╚{"═"*5}> Introdueix la dada {categoria[0]}: ").lower().strip())})
                     break
             except ValueError:
                 pedro_sanchez = str()
@@ -29,10 +29,10 @@ def input_categor(db, demanarPrestat: bool):
                     case bool():
                         pedro_sanchez = "s o n (si/no)"
                     case int():
-                        pedro_sanchez = "un nombre"
+                        pedro_sanchez = "un nombre (0-9)"
                     case str():
                         pedro_sanchez = "un text"
-                print(f"incompatible, la dada ha de ser {pedro_sanchez}")
+                print(f"\tincompatible, la dada ha de ser {pedro_sanchez}")
     return dades
 
 def cerc_llib(db, parametres):
@@ -45,13 +45,13 @@ def cerc_llib(db, parametres):
             break
 
 def afegir_llib(db, llibre = None):
-    print('-' * term_size.columns)
-    print("Quin llibre vols afegir: ")
     if llibre == None:
+        print('-' * term_size.columns)
+        print("\n\tQuin llibre vols afegir: ")
         llibre = input_categor(db, True)
     position = cerc_llib(db, llibre)
     if position == None:
-        print("S'afegirà el llibre: ")
+        print("\tS'afegirà el llibre: ", end= "")
         llistat_llibres(db, llibre)
         db.append(llibre)
     else:
