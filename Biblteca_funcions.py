@@ -37,15 +37,15 @@ def input_categor(db, demanarPrest=False):
                                 raise ValueError
                         case int():
                             ans = int(input(
-                                        f"\t╚{'═'*5}> Introdueix la dada "
-                                        f"{categoria[0]}: "
-                                    ).strip())
+                                f"\t╚{'═'*5}> Introdueix la dada "
+                                f"{categoria[0]}: "
+                            ).strip())
                             dades.update({categoria[0]: ans})
                         case str():
                             ans = input(
-                                    f"\t╚{"═"*5}> Introdueix la dada "
-                                    f"{categoria[0]}: "
-                                ).lower().strip()
+                                f"\t╚{"═"*5}> Introdueix la dada "
+                                f"{categoria[0]}: "
+                            ).lower().strip()
                             dades.update({categoria[0]: ans})
                     break
             except ValueError:
@@ -177,7 +177,7 @@ def canviar_estat(db):
                 print("Vols editar el llibre ", end="")
                 llistat_llibres(db, db[posllib])
                 ans = input(f"a NO prestat(s/n): ").lower().strip()
-                if ans == "s" or "":
+                if ans in ("s", ""):  ## Per acceptar entrades en blanc com sí
                     db[posllib].update({"Prestat": False})
                     break
                 elif ans == "n":
@@ -187,7 +187,7 @@ def canviar_estat(db):
         elif db[posllib]["Prestat"] is False:
             while True:
                 ans = input(f"Vols editar el llibre {llibre} a SI prestat(s/n): ").lower().strip()
-                if ans == "s" or "":
+                if ans in ("s", ""):  ## Per acceptar entrades en blanc com sí
                     db[posllib].update({"Prestat": True})
                     break
                 elif ans == "n":
