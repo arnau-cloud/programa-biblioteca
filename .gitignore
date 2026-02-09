@@ -205,3 +205,7 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+.vscode/launch.json
+__pycache__/Biblteca_funcións.cpython-313.pyc
+__pycache__/Biblteca_funcións.cpython-313.pyc
+__pycache__/Biblteca_funcións.cpython-313.pyc

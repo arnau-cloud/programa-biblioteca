@@ -101,7 +101,7 @@ def llistat_llibres(db, specific = None):
             print('-' * term_size.columns)
     else:
         for categoria in zip(specific.keys(), specific.values()):
-                print(f"{categoria[0]}: {categoria[1]}", end = "; ")
+                print(f"{categoria[0]}: {categoria[1]}", end = ", ")
 
 def canviar_estat(db):
     print("De quin llibre vols canviar l'estat")
@@ -109,34 +109,30 @@ def canviar_estat(db):
     posllib = cerc_llib(db, llibre)
     if posllib == None:
         while True:
-            ans = input("El llibre no existeix, vols afegir-lo?(s/n): ").lower().strip()
-            if ans == "s":
-                afegir_llib(db, llibre)
-            elif ans == "n":
-                break
-            else:
-                print("Incompatible, ha de ser s o n (si/no)")
-        
+            print("El llibre no existeix, ", end = "")
+            afegir_llib(db, llibre)   
     else:
-        for categoria in zip(db[posllib].keys(), db[posllib].values()):
-            if (categoria[0] == "Prestat") and (categoria[1] == True):
-                while True:
-                    ans = input(f"Vols editar el llibre {llibre} a NO prestat(s/n): ").lower().strip()
-                    if ans == "s" or "":
-                        db[posllib].update({"Prestat: " : False})
-                    elif ans == "n":
-                        break
-                    else:
-                        print("Incompatible, ha de ser s o n (si/no)")
-            elif (categoria[0] == "Prestat") and (categoria[1] == False):
-                while True:
-                    ans = input(f"Vols editar el llibre {llibre} a SI prestat(s/n): ").lower().strip()
-                    if ans == "s" or "":
-                        db[posllib].update({"Prestat: " : True})
-                    elif ans == "n":
-                        break
-                    else:
-                        print("Incompatible, ha de ser s o n (si/no)")
+        if db[posllib]["Prestat"] == True:
+            while True:
+                print("Vols editar el llibre ", end = "")
+                llistat_llibres(db, db[posllib])
+                ans = input(f"a NO prestat(s/n): ").lower().strip()
+                if ans == "s" or "":
+                    db[posllib].update({"Prestat" : False})
+                    break
+                elif ans == "n":
+                    break
+                else:
+                    print("Incompatible, ha de ser s o n (si/no)")
+        elif db[posllib]["Prestat"] == False:
+            while True:
+                ans = input(f"Vols editar el llibre {llibre} a SI prestat(s/n): ").lower().strip()
+                if ans == "s" or "":
+                    db[posllib].update({"Prestat" : True})
+                elif ans == "n":
+                    break
+                else:
+                    print("Incompatible, ha de ser s o n (si/no)")
 
 def llistar_autors(db):
     llistat = set()
