@@ -1,19 +1,22 @@
 import os
-term_size = os.get_terminal_size()  # Espai a la terminal per a imprimir linies
+term_size = os.get_terminal_size()  # Espai a la terminal per imprimir linies
 
 
 def input_categor(db, demanarPrest=False):
-
-    """Afegeix un nou llibre
-
-    db --> Base de dades que editar
-
-    demanarPrest --> Condiciona si fer un input
-                     on es demani si està prestat
     """
+    Demana a l'usuari les dades d'un llibre segons la plantilla db[0].
+
+    Parametres:
+      db --> llista de dicts amb db[0] = plantilla de camps i tipus.
+      demanarPrest --> Si és False, no es demana l'estat de préstec.
+
+    Retorna:
+      Un dict amb les dades introduïdes.
+    """
+
     dades = dict()
     for categoria in zip(db[0].keys(), db[0].values()):
-        while True: #bucle
+        while True:  # Bucle fins que les categories siguin correctes
             try:
                 # Si demanarPrestat es fals ignora l'apartat "Prestat"
                 if (demanarPrest is False) and (categoria[0] == "Prestat"):
@@ -22,7 +25,10 @@ def input_categor(db, demanarPrest=False):
                     # Demanant inputs en base al tipus de dada
                     match categoria[1]:
                         case bool():
-                            ans = input(f"\t╚{"═"*5}> Introdueix si està {categoria[0]} (s/n): ").lower().strip()
+                            ans = input(
+                                f"\t╚{"═"*5}> Introdueix si està "
+                                f"{categoria[0]} (s/n): "
+                            ).lower().strip()
                             if ans == "s":
                                 dades.update({categoria[0]: True})
                             elif ans == "n":
@@ -30,13 +36,21 @@ def input_categor(db, demanarPrest=False):
                             else:
                                 raise ValueError
                         case int():
-                            dades.update({categoria[0]: int(input(f"\t╚{"═"*5}> Introdueix la dada {categoria[0]}: ").strip())})
+                            ans = int(input(
+                                        f"\t╚{'═'*5}> Introdueix la dada "
+                                        f"{categoria[0]}: "
+                                    ).strip())
+                            dades.update({categoria[0]: ans})
                         case str():
-                            dades.update({categoria[0]: (input(f"\t╚{"═"*5}> Introdueix la dada {categoria[0]}: ").lower().strip())})
+                            ans = input(
+                                    f"\t╚{"═"*5}> Introdueix la dada "
+                                    f"{categoria[0]}: "
+                                ).lower().strip()
+                            dades.update({categoria[0]: ans})
                     break
             except ValueError:
                 pedro_sanchez = str()
-                # Indica la mena dada si hi ha un error
+                # Indica la mena de dada si hi ha un error
                 match categoria[1]:
                     case bool():
                         pedro_sanchez = "s o n (si/no)"
@@ -49,11 +63,15 @@ def input_categor(db, demanarPrest=False):
 
 
 def cerc_llib(db, parametres):
-    """Cerca un llibre
+    """
+    Cerca un llibre amb la plantilla db[0] i els paràmetres donats.
 
-    db --> Base de dades que editar
+    Parametres:
+    db --> Base de dades que iterar.
+    parametres --> Quin llibres s'ha de buscar.
 
-    parametres --> Quin llibres s'ha de buscar
+    Retorna:
+    La posició del llibre a la base de dades o None si no existeix.
     """
     index = int()
     for index, categoria in enumerate(db, 1):
@@ -65,13 +83,21 @@ def cerc_llib(db, parametres):
 
 
 def afegir_llib(db, llibre=None):
+    """
+    Afegeix un llibre a la base de dades si no existeix.
+
+    Parametres:
+      db --> llista de dicts (db[0] és la plantilla).
+      llibre --> diccionari amb les dades del llibre o omitir.
+    """
     if llibre is None:
         print('-' * term_size.columns)
         print("\n\tQuin llibre vols afegir: ")
         llibre = input_categor(db, True)
+        
     position = cerc_llib(db, llibre)
     if position is None:
-        print("\tS'afegirà el llibre: ", end="")
+        print("\tS'ha afegit el llibre: ", end="")
         llistat_llibres(db, llibre)
         db.append(llibre)
     else:
@@ -79,6 +105,12 @@ def afegir_llib(db, llibre=None):
 
 
 def elim_llibre(db):
+    """
+    Elimina un llibre de la base de dades.
+
+    Parametres:
+      db --> llista de dicts (db[0] és la plantilla).
+    """
     cont = True
     while cont is True:
         print("Quin llibre vols eliminar?: ")
@@ -115,13 +147,27 @@ def elim_llibre(db):
 
 
 def canviar_estat(db):
-    print("De quin llibre vols canviar l'estat")
+    """
+    Canvia l'estat 'Prestat' d'un llibre existent o afegeix-lo si no existeix.
+
+    Parametres:
+      db --> llista de dicts (db[0] és la plantilla).
+    """
+    print('-' * term_size.columns)
+    print("\nDe quin llibre vols canviar l'estat")
     llibre = input_categor(db)
     posllib = cerc_llib(db, llibre)
-    if posllib is None:
+    if posllib is None: # Si el llibre no existeix, es demana si es vol afegir
         while True:
-            print("El llibre no existeix, ", end="")
-            afegir_llib(db, llibre)
+            ans = input("El llibre no existeix, vols afegir-lo?(s/n): ").lower()
+            if ans == "s":
+                llibre.update({"Prestat": False})
+                afegir_llib(db, llibre)
+                break
+            elif ans == "n":
+                break
+            else:
+                print("Incompatible, ha de ser s o n (si/no)")
     else:
         if db[posllib]["Prestat"] is True:
             while True:
@@ -148,24 +194,41 @@ def canviar_estat(db):
 
 
 def llistat_llibres(db, specific=None):
-    if specific is None:
+    """
+    Imprimeix llibres per pantalla.
+
+    Parametres:
+      db --> llista de dicts (db[0] és la plantilla).
+      specific --> dict amb una entrada específica o None per llistar tots.
+    """
+    if specific is None: # Imprimeix un llibre espcífic si existeix
         print('-' * term_size.columns)
+        # Itera pel llibre específic i imprimeix les seves categories
         for index in range(1, len(db)):
             for categoria in zip(db[index].keys(), db[index].values()):
-                    print(f"            {categoria[0]}: {categoria[1]}")
+                    print(f"\t\t\t{categoria[0]}: {categoria[1]}")
             print('-' * term_size.columns)
     else:
+        # Imprimeix tots els llibres amb format
         for categoria in zip(specific.keys(), specific.values()):
                 print(f"{categoria[0]}: {categoria[1]}", end=", ")
 
 
 def llistar_autors(db):
+    """
+    Mostra la llista d'autors únics de la base de dades.
+
+    Parametres:
+        db --> llista de dicts (db[0] és la plantilla).
+    """
     llistat = set()
+    # Itera sobre la base de dades i afegeix els autors al conjunt
     for index in range(1, len(db)):
         for categoria in zip(db[index].keys(), db[index].values()):
             if categoria[0] == "Autor":
                 llistat.add(categoria[1])
+    
     print('-' * term_size.columns)
-    for a in llistat:
-        print(f"            {a}")
+    for a in llistat: # Imprimeix amb format
+        print(f"\t\t\t{a}")
         print('-' * term_size.columns)

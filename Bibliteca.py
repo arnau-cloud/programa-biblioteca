@@ -1,4 +1,4 @@
-from Biblteca_funcións import *
+from Biblteca_funcions import *
 import os
 term_size = os.get_terminal_size()
 
@@ -41,6 +41,7 @@ while True:
             case 5:
                 os.system("cls")
                 canviar_estat(llibres)
+                input()
             case 6:
                 break
             case _:
