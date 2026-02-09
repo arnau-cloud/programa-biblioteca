@@ -199,6 +199,7 @@ def canviar_estat(db):
                 ans = input(f"a NO prestat(s/n): ").lower().strip()
                 if ans in ("s", ""):  # Per acceptar entrades en blanc
                     db[posllib].update({"Prestat": False})
+                    print("\t\tEditat")
                     break
                 elif ans == "n":
                     break
@@ -206,9 +207,12 @@ def canviar_estat(db):
                     print("\tIncompatible, ha de ser s o n (si/no)")
         elif db[posllib]["Prestat"] is False: # Si es False es passarà a True
             while True:
-                ans = input(f"\tVols editar el llibre {llibre} a SI prestat(s/n): ").lower().strip()
+                print("\tVols editar el llibre ", end="")
+                llistat_llibres(db, db[posllib])
+                ans = input(f"a SI prestat(s/n): ").lower().strip()
                 if ans in ("s", ""):  # Per acceptar entrades en blanc
                     db[posllib].update({"Prestat": True})
+                    print("\t\tEditat")
                     break
                 elif ans == "n":
                     break
