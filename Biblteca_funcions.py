@@ -15,6 +15,7 @@ def input_categor(db, demanarPrest=False):
     """
 
     dades = dict()
+    # Iterem sobre les categories de la plantilla
     for categoria in zip(db[0].keys(), db[0].values()):
         while True:  # Bucle fins que les categories siguin correctes
             try:
@@ -22,9 +23,11 @@ def input_categor(db, demanarPrest=False):
                 if (demanarPrest is False) and (categoria[0] == "Prestat"):
                     break
                 else:
-                    # Demanant inputs en base al tipus de dada
+                    # Demanem inputs en base al tipus de dada i ho afegim
                     match categoria[1]:
                         case bool():
+                            # Esperem 's' o 'n'; normalitzem entrada
+                            # Ho afegim amb la categoria i el valor introduït
                             ans = input(
                                 f"\t╚{"═"*5}> Introdueix si està "
                                 f"{categoria[0]} (s/n): "
@@ -34,23 +37,26 @@ def input_categor(db, demanarPrest=False):
                             elif ans == "n":
                                 dades.update({categoria[0]: False})
                             else:
+                                # Forcem reintentar per entrada invàlida.
                                 raise ValueError
                         case int():
                             ans = int(input(
                                 f"\t╚{'═'*5}> Introdueix la dada "
                                 f"{categoria[0]}: "
                             ).strip())
+                            # Ho afegim amb la categoria i el valor introduït
                             dades.update({categoria[0]: ans})
                         case str():
                             ans = input(
                                 f"\t╚{"═"*5}> Introdueix la dada "
                                 f"{categoria[0]}: "
                             ).lower().strip()
+                            # Ho afegim amb la categoria i el valor introduït
                             dades.update({categoria[0]: ans})
                     break
             except ValueError:
+                # Indica la mena de dada que s'espera si hi ha un error
                 pedro_sanchez = str()
-                # Indica la mena de dada si hi ha un error
                 match categoria[1]:
                     case bool():
                         pedro_sanchez = "s o n (si/no)"
@@ -74,12 +80,16 @@ def cerc_llib(db, parametres):
     La posició del llibre a la base de dades o None si no existeix.
     """
     index = int()
+    # Iterem sobre la base de dades i extraiem el index, que després retornem
     for index, categoria in enumerate(db, 1):
-        llistat = categoria.copy(); llistat2 = parametres.copy()
+        llistat = categoria.copy()
+        llistat2 = parametres.copy()
+        # No tenim en compte el camp "Prestat", s'elimina
         llistat.pop("Prestat")
-        if "Prestat" in llistat2: llistat2.pop("Prestat")
+        if "Prestat" in llistat2:
+            llistat2.pop("Prestat")
         if llistat == llistat2:
-            return index - 1
+            return index - 1 # Retornem al posició i compensem la plantilla
             break
 
 
@@ -96,14 +106,16 @@ def afegir_llib(db, llibre=None):
         print('-' * term_size.columns)
         print("\n\tQuin llibre vols afegir: ")
         llibre = input_categor(db, True)
-        
+
     position = cerc_llib(db, llibre)
     if position is None:  # Es comprova que el llibre no existeix
         print("\tS'ha afegit el llibre: ", end="")
-        llistat_llibres(db, llibre)
+        llistat_llibres(db, llibre)  # Imprimeix el llibre que s'ha afegit
         db.append(llibre)
-    else:
-        print(f"Ja existeix el llibre: {llistat_llibres(db, db[position])}, \nno s'afegirà")
+    else:  # Si ja existeix, no s'afegeix
+        print(f"Ja existeix el llibre: ", end="")
+        llistat_llibres(db, db[position])
+        print("no s'afegirà")
 
 
 def elim_llibre(db):
@@ -114,17 +126,18 @@ def elim_llibre(db):
       db --> llista de dicts (db[0] és la plantilla).
     """
     cont = True
-    while cont is True:
+    while cont is True:  # Bucle fins que s'elimina un llibre o es surt
         print("Quin llibre vols eliminar?: ")
         llibre = input_categor(db)
         posLlibre = cerc_llib(db, llibre)
-        if posLlibre is not None:
-            while True:
+        if posLlibre is not None:  # Pregunta si existeis el llibre
+            while True:  # Bucle fins que s'introdueix una resposta vàlida
+                # Comprovem que realment es vol eliminar el llibre
                 print("Vols eliminar el llibre ", end="")
                 llistat_llibres(db, db[posLlibre])
                 ans = input("(s/n): ").lower().strip()
                 if ans == "s":
-                    db.pop(posLlibre)
+                    db.pop(posLlibre)  # Eliminem el llibre
                     print("Eliminat")
                     cont = False
                     break
@@ -135,9 +148,11 @@ def elim_llibre(db):
                 else:
                     print("Incompatible, ha de ser s o n (si/no)")
                     continue
-        else:
-            while True:
-                ans = input("El llibre no existeix, vols tornar a intentar-ho?(s/n): ").lower().strip()
+        else:  # El llibre no existeix, es pregunta si es vol reintentar
+            while True:  # Bucle fins que s'introdueix una resposta vàlida
+                ans = input(
+                    "El llibre no existeix, vols tornar a intentar-ho?(s/n): "
+                ).lower().strip()
                 if ans == "s":
                     break
                 if ans == "n":
@@ -150,7 +165,7 @@ def elim_llibre(db):
 
 def canviar_estat(db):
     """
-    Canvia l'estat 'Prestat' d'un llibre existent o afegeix-lo si no existeix.
+    Canvia l'estat 'Prestat' d'un llibre existent o l'afegeix si no existeix.
 
     Parametres:
       db --> llista de dicts (db[0] és la plantilla).
@@ -159,12 +174,14 @@ def canviar_estat(db):
     print("\nDe quin llibre vols canviar l'estat")
     llibre = input_categor(db)
     posllib = cerc_llib(db, llibre)
-    if posllib is None: # Si el llibre no existeix, es demana si es vol afegir
+    if posllib is None:  # Si el llibre no existeix es demana si es vol afegir
         while True:
-            ans = input("El llibre no existeix, vols afegir-lo?(s/n): ").lower()
+            ans = input(
+                "El llibre no existeix, vols afegir-lo?(s/n): "
+            ).lower()
             if ans == "s":
-                llibre.update({"Prestat": False})
-                afegir_llib(db, llibre)
+                llibre.update({"Prestat": False})  # Afegim el camp "Prestat"
+                afegir_llib(db, llibre)  # Afegim el llibre
                 break
             elif ans == "n":
                 break
@@ -172,22 +189,22 @@ def canviar_estat(db):
                 print("Incompatible, ha de ser s o n (si/no)")
     else:
         # En relació a l'estat del llibre, es demana si es vol canviar
-        if db[posllib]["Prestat"] is True:
+        if db[posllib]["Prestat"] is True:  # Si es True es passarà a False
             while True:
                 print("Vols editar el llibre ", end="")
                 llistat_llibres(db, db[posllib])
                 ans = input(f"a NO prestat(s/n): ").lower().strip()
-                if ans in ("s", ""):  ## Per acceptar entrades en blanc com sí
+                if ans in ("s", ""):  # Per acceptar entrades en blanc
                     db[posllib].update({"Prestat": False})
                     break
                 elif ans == "n":
                     break
                 else:
                     print("Incompatible, ha de ser s o n (si/no)")
-        elif db[posllib]["Prestat"] is False:
+        elif db[posllib]["Prestat"] is False: # Si es False es passarà a True
             while True:
                 ans = input(f"Vols editar el llibre {llibre} a SI prestat(s/n): ").lower().strip()
-                if ans in ("s", ""):  ## Per acceptar entrades en blanc com sí
+                if ans in ("s", ""):  # Per acceptar entrades en blanc
                     db[posllib].update({"Prestat": True})
                     break
                 elif ans == "n":
@@ -204,7 +221,7 @@ def llistat_llibres(db, specific=None):
       db --> llista de dicts (db[0] és la plantilla).
       specific --> dict amb una entrada específica o None per llistar tots.
     """
-    if specific is None: # Imprimeix un llibre espcífic si existeix
+    if specific is None:  # Imprimeix un llibre si s'especifica
         print('-' * term_size.columns)
         # Itera pel llibre específic i imprimeix les seves categories
         for index in range(1, len(db)):
@@ -230,8 +247,8 @@ def llistar_autors(db):
         for categoria in zip(db[index].keys(), db[index].values()):
             if categoria[0] == "Autor":
                 llistat.add(categoria[1])
-    
+
     print('-' * term_size.columns)
-    for a in llistat: # Imprimeix amb format
+    for a in llistat:  # Imprimeix el conjunt amb format
         print(f"\t\t\t{a}")
         print('-' * term_size.columns)

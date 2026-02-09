@@ -1,5 +1,6 @@
 from Biblteca_funcions import *
 import os
+import time
 term_size = os.get_terminal_size()
 
 llibres = [
@@ -25,23 +26,23 @@ while True:
             case 1:
                 os.system("cls")
                 afegir_llib(llibres)
-                input()
+                time.sleep(1.5)
             case 2:
                 os.system("cls")
                 elim_llibre(llibres)
-                input()
+                time.sleep(1.5)
             case 3:
                 os.system("cls")
                 llistat_llibres(llibres)
-                input()
+                time.sleep(1.5)
             case 4:
                 os.system("cls")
                 llistar_autors(llibres)
-                input()
+                time.sleep(1.5)
             case 5:
                 os.system("cls")
                 canviar_estat(llibres)
-                input()
+                time.sleep(1.5)
             case 6:
                 break
             case _:
