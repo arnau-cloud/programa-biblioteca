@@ -128,19 +128,20 @@ def elim_llibre(db):
       db --> llista de dicts (db[0] és la plantilla).
     """
     cont = True
+    print('-' * term_size.columns)
     while cont is True:  # Bucle fins que s'elimina un llibre o es surt
-        print("Quin llibre vols eliminar?: ")
+        print("\n\tQuin llibre vols eliminar?: ")
         llibre = input_categor(db)
         posLlibre = cerc_llib(db, llibre)
         if posLlibre is not None:  # Pregunta si existeis el llibre
             while True:  # Bucle fins que s'introdueix una resposta vàlida
                 # Comprovem que realment es vol eliminar el llibre
-                print("Vols eliminar el llibre ", end="")
+                print("\tVols eliminar el llibre ", end="")
                 llistat_llibres(db, db[posLlibre])
                 ans = input("(s/n): ").lower().strip()
                 if ans == "s":
                     db.pop(posLlibre)  # Eliminem el llibre
-                    print("Eliminat")
+                    print("\t\tEliminat")
                     cont = False
                     break
                 if ans == "n":
@@ -148,12 +149,12 @@ def elim_llibre(db):
                     cont = False
                     break
                 else:
-                    print("Incompatible, ha de ser s o n (si/no)")
+                    print("\tIncompatible, ha de ser s o n (si/no)")
                     continue
         else:  # El llibre no existeix, es pregunta si es vol reintentar
             while True:  # Bucle fins que s'introdueix una resposta vàlida
                 ans = input(
-                    "El llibre no existeix, vols tornar a intentar-ho?(s/n): "
+                    "\tEl llibre no existeix, vols tornar a intentar-ho?(s/n): "
                 ).lower().strip()
                 if ans == "s":
                     break
@@ -161,7 +162,7 @@ def elim_llibre(db):
                     cont = False
                     break
                 else:
-                    print("Incompatible, ha de ser s o n (si/no)")
+                    print("\tIncompatible, ha de ser s o n (si/no)")
                     continue
 
 
@@ -173,13 +174,13 @@ def canviar_estat(db):
       db --> llista de dicts (db[0] és la plantilla).
     """
     print('-' * term_size.columns)
-    print("\nDe quin llibre vols canviar l'estat")
+    print("\n\tDe quin llibre vols canviar l'estat")
     llibre = input_categor(db)
     posllib = cerc_llib(db, llibre)
     if posllib is None:  # Si el llibre no existeix es demana si es vol afegir
         while True:
             ans = input(
-                "El llibre no existeix, vols afegir-lo?(s/n): "
+                "\tEl llibre no existeix, vols afegir-lo?(s/n): "
             ).lower()
             if ans == "s":
                 llibre.update({"Prestat": False})  # Afegim el camp "Prestat"
@@ -188,12 +189,12 @@ def canviar_estat(db):
             elif ans == "n":
                 break
             else:
-                print("Incompatible, ha de ser s o n (si/no)")
+                print("\tIncompatible, ha de ser s o n (si/no)")
     else:
         # En relació a l'estat del llibre, es demana si es vol canviar
         if db[posllib]["Prestat"] is True:  # Si es True es passarà a False
             while True:
-                print("Vols editar el llibre ", end="")
+                print("\tVols editar el llibre ", end="")
                 llistat_llibres(db, db[posllib])
                 ans = input(f"a NO prestat(s/n): ").lower().strip()
                 if ans in ("s", ""):  # Per acceptar entrades en blanc
@@ -202,17 +203,17 @@ def canviar_estat(db):
                 elif ans == "n":
                     break
                 else:
-                    print("Incompatible, ha de ser s o n (si/no)")
+                    print("\tIncompatible, ha de ser s o n (si/no)")
         elif db[posllib]["Prestat"] is False: # Si es False es passarà a True
             while True:
-                ans = input(f"Vols editar el llibre {llibre} a SI prestat(s/n): ").lower().strip()
+                ans = input(f"\tVols editar el llibre {llibre} a SI prestat(s/n): ").lower().strip()
                 if ans in ("s", ""):  # Per acceptar entrades en blanc
                     db[posllib].update({"Prestat": True})
                     break
                 elif ans == "n":
                     break
                 else:
-                    print("Incompatible, ha de ser s o n (si/no)")
+                    print("\tIncompatible, ha de ser s o n (si/no)")
 
 
 def llistat_llibres(db, specific=None):
