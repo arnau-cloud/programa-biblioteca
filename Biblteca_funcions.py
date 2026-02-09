@@ -75,9 +75,10 @@ def cerc_llib(db, parametres):
     """
     index = int()
     for index, categoria in enumerate(db, 1):
-        llistat = categoria.copy()
+        llistat = categoria.copy(); llistat2 = parametres.copy()
         llistat.pop("Prestat")
-        if llistat == parametres:
+        if "Prestat" in llistat2: llistat2.pop("Prestat")
+        if llistat == llistat2:
             return index - 1
             break
 
@@ -90,18 +91,19 @@ def afegir_llib(db, llibre=None):
       db --> llista de dicts (db[0] és la plantilla).
       llibre --> diccionari amb les dades del llibre o omitir.
     """
+    # Si no es proporciona un llibre, es demanen dades
     if llibre is None:
         print('-' * term_size.columns)
         print("\n\tQuin llibre vols afegir: ")
         llibre = input_categor(db, True)
         
     position = cerc_llib(db, llibre)
-    if position is None:
+    if position is None:  # Es comprova que el llibre no existeix
         print("\tS'ha afegit el llibre: ", end="")
         llistat_llibres(db, llibre)
         db.append(llibre)
     else:
-        print(f"Ja existeix el llibre: {db[position]}, \nno s'afegirà")
+        print(f"Ja existeix el llibre: {llistat_llibres(db, db[position])}, \nno s'afegirà")
 
 
 def elim_llibre(db):
@@ -169,6 +171,7 @@ def canviar_estat(db):
             else:
                 print("Incompatible, ha de ser s o n (si/no)")
     else:
+        # En relació a l'estat del llibre, es demana si es vol canviar
         if db[posllib]["Prestat"] is True:
             while True:
                 print("Vols editar el llibre ", end="")
