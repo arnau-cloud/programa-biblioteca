@@ -4,8 +4,9 @@ term_size = os.get_terminal_size()
 
 llibres = [
     {"Títol": "", "Autor": "", "Any-publicació": int(), "Prestat": bool()},
-    {"Títol": "a", "Autor": "a", "Any-publicació": 1998, "Prestat": True},
-    {"Títol": "b", "Autor": "b", "Any-publicació": 67, "Prestat": False}
+    {"Títol": "Cien años de soledad", "Autor": "Gabriel García Márquez", "Any": 1967, "Prestat": False},
+    {"Títol": "1984", "Autor": "George Orwell", "Any": 1949, "Prestat": True},
+    {"Títol": "La sombra del viento", "Autor": "Carlos Ruiz Zafón", "Any": 2001, "Prestat": False},
     ]
 
 while True:
