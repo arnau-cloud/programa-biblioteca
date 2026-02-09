@@ -145,7 +145,7 @@ def elim_llibre(db):
                     cont = False
                     break
                 if ans == "n":
-                    print("ok, ciao")
+                    print("\t\tok, ciao")
                     cont = False
                     break
                 else:
