@@ -51,6 +51,8 @@ def input_categor(db, demanarPrest=False):
                                 f"\t╚{"═"*5}> Introdueix la dada "
                                 f"{categoria[0]}: "
                             ).lower().strip()
+                            if ans == "":  # Forcem reintentar per entrada en blanc.
+                                raise ValueError
                             # Ho afegim amb la categoria i el valor introduït
                             dades.update({categoria[0]: ans})
                     break
@@ -64,7 +66,7 @@ def input_categor(db, demanarPrest=False):
                         pedro_sanchez = "un nombre (0-9)"
                     case str():
                         pedro_sanchez = "un text"
-                print(f"\tincompatible, la dada ha de ser {pedro_sanchez}")
+                print(f"\t\tincompatible, la dada ha de ser {pedro_sanchez}")
     return dades
 
 
