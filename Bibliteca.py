@@ -1,17 +1,20 @@
 from Biblteca_funcions import *
 import os
-term_size = os.get_terminal_size()
+term_size = os.get_terminal_size() # Espai a la terminal per imprimir linies
 
-llibres = [
+llibres = [  # Biblioteca amb llibres
     {"Títol": "", "Autor": "", "Any-publicació": int(), "Prestat": bool()},
-    {"Títol": "Cien años de soledad", "Autor": "Gabriel García Márquez", "Any": 1967, "Prestat": False},
-    {"Títol": "1984", "Autor": "George Orwell", "Any": 1949, "Prestat": True},
-    {"Títol": "La sombra del viento", "Autor": "Carlos Ruiz Zafón", "Any": 2001, "Prestat": False},
+    {"Títol": "Cien años de soledad", "Autor": "Gabriel García Márquez",
+     "Any": 1967, "Prestat": False},
+    {"Títol": "1984", "Autor": "George Orwell",
+     "Any": 1949, "Prestat": True},
+    {"Títol": "La sombra del viento", "Autor": "Carlos Ruiz Zafón",
+     "Any": 2001, "Prestat": False},
     ]
 
-while True:
+while True:  # Bucle infinit fins que es surti del programa
     try:
-        os.system("cls")
+        os.system("cls")  # Netejem la terminal i imprimim les opcións
         print('-' * term_size.columns)
         print("""
             1. Afegir llibre
@@ -22,7 +25,7 @@ while True:
             6. Sortir
         """)
         opcio = int(input("Introdueixi una opció: "))
-        match opcio:
+        match opcio:  # Mirem quina opció s'ha seleccionat
             case 1:
                 os.system("cls")
                 afegir_llib(llibres)
