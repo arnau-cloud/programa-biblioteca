@@ -115,7 +115,7 @@ def afegir_llib(db, llibre=None):
         llistat_llibres(db, llibre)  # Imprimeix el llibre que s'ha afegit
         db.append(llibre)
     else:  # Si ja existeix, no s'afegeix
-        print(f"Ja existeix el llibre: ", end="")
+        print(f"\tJa existeix el llibre: ", end="")
         llistat_llibres(db, db[position])
         print("no s'afegirà")
 
