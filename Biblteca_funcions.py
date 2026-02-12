@@ -51,7 +51,8 @@ def input_categor(db, demanarPrest=False):
                                 f"\t╚{"═"*5}> Introdueix la dada "
                                 f"{categoria[0]}: "
                             ).lower().strip()
-                            if ans == "":  # Forcem reintentar per entrada en blanc.
+                            # Forcem reintentar per entrada en blanc.
+                            if ans == "":
                                 raise ValueError
                             # Ho afegim amb la categoria i el valor introduït
                             dades.update({categoria[0]: ans})
@@ -91,7 +92,7 @@ def cerc_llib(db, parametres):
         if "Prestat" in llistat2:
             llistat2.pop("Prestat")
         if llistat == llistat2:
-            return index - 1 # Retornem al posició i compensem la plantilla
+            return index - 1  # Retornem al posició i compensem la plantilla
             break
 
 
@@ -154,7 +155,8 @@ def elim_llibre(db):
         else:  # El llibre no existeix, es pregunta si es vol reintentar
             while True:  # Bucle fins que s'introdueix una resposta vàlida
                 ans = input(
-                    "\tEl llibre no existeix, vols tornar a intentar-ho?(s/n): "
+                    "\tEl llibre no existeix, vols tornar a "
+                    "intentar-ho?(s/n): "
                 ).lower().strip()
                 if ans == "s":
                     break
@@ -205,7 +207,7 @@ def canviar_estat(db):
                     break
                 else:
                     print("\tIncompatible, ha de ser s o n (si/no)")
-        elif db[posllib]["Prestat"] is False: # Si es False es passarà a True
+        elif db[posllib]["Prestat"] is False:  # Si es False es passarà a True
             while True:
                 print("\tVols editar el llibre ", end="")
                 llistat_llibres(db, db[posllib])
@@ -233,12 +235,12 @@ def llistat_llibres(db, specific=None):
         # Itera pel llibre específic i imprimeix les seves categories
         for index in range(1, len(db)):
             for categoria in zip(db[index].keys(), db[index].values()):
-                    print(f"\t\t\t{categoria[0]}: {categoria[1]}")
+                print(f"\t\t\t{categoria[0]}: {categoria[1]}")
             print('-' * term_size.columns)
     else:
         # Imprimeix tots els llibres amb format
         for categoria in zip(specific.keys(), specific.values()):
-                print(f"{categoria[0]}: {categoria[1]}", end=", ")
+            print(f"{categoria[0]}: {categoria[1]}", end=", ")
 
 
 def llistar_autors(db):
