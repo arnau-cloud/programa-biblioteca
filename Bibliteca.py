@@ -1,6 +1,6 @@
 from Biblteca_funcions import *
 import os
-term_size = os.get_terminal_size() # Espai a la terminal per imprimir linies
+term_size = os.get_terminal_size()  # Espai a la terminal per imprimir linies
 
 llibres = [  # Biblioteca amb llibres
     {"Títol": "", "Autor": "", "Any-publicació": int(), "Prestat": bool()},
@@ -27,6 +27,8 @@ while True:  # Bucle infinit fins que es surti del programa
         opcio = int(input("Introdueixi una opció: "))
         match opcio:  # Mirem quina opció s'ha seleccionat
             case 1:
+                # Cada funció executa la acció específica i espera
+                # input per sortir
                 os.system("cls")
                 afegir_llib(llibres)
                 input()
@@ -36,11 +38,17 @@ while True:  # Bucle infinit fins que es surti del programa
                 input()
             case 3:
                 os.system("cls")
-                llistat_llibres(llibres)
+                if not llibres:
+                    print("No hi ha llibres a la biblioteca.")
+                else:
+                    llistat_llibres(llibres)
                 input()
             case 4:
                 os.system("cls")
-                llistar_autors(llibres)
+                if not llibres:
+                    print("No hi ha llibres a la biblioteca.")
+                else:
+                    llistar_autors(llibres)
                 input()
             case 5:
                 os.system("cls")
@@ -50,6 +58,6 @@ while True:  # Bucle infinit fins que es surti del programa
                 break
             case _:
                 raise ValueError
-    except:
+    except ValueError:
         os.system("cls")
         input("invàlid")
