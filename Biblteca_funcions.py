@@ -189,6 +189,7 @@ def canviar_estat(db):
                 afegir_llib(db, llibre)  # Afegim el llibre
                 break
             elif ans == "n":
+                print("\t\tNo s'afegirà")
                 break
             else:
                 print("\tIncompatible, ha de ser s o n (si/no)")
@@ -204,6 +205,7 @@ def canviar_estat(db):
                     print("\t\tEditat")
                     break
                 elif ans == "n":
+                    print("\t\tNo s'ha editat")
                     break
                 else:
                     print("\tIncompatible, ha de ser s o n (si/no)")
@@ -217,6 +219,7 @@ def canviar_estat(db):
                     print("\t\tEditat")
                     break
                 elif ans == "n":
+                    print("\t\tNo s'ha editat")
                     break
                 else:
                     print("\tIncompatible, ha de ser s o n (si/no)")
@@ -235,7 +238,7 @@ def llistat_llibres(db, specific=None):
         # Itera pel llibre específic i imprimeix les seves categories
         for index in range(1, len(db)):
             for categoria in zip(db[index].keys(), db[index].values()):
-                print(f"\t\t\t{categoria[0]}: {categoria[1]}")
+                print(f"\t\t{categoria[0]}: {categoria[1]}")
             print('-' * term_size.columns)
     else:
         # Imprimeix tots els llibres amb format
@@ -259,5 +262,5 @@ def llistar_autors(db):
 
     print('-' * term_size.columns)
     for a in llistat:  # Imprimeix el conjunt amb format
-        print(f"\t\t\t{a}")
+        print(f"\t\t{a}")
         print('-' * term_size.columns)

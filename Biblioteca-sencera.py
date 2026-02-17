@@ -189,6 +189,7 @@ def canviar_estat(db):
                 afegir_llib(db, llibre)  # Afegim el llibre
                 break
             elif ans == "n":
+                print("\t\tNo s'afegirà")
                 break
             else:
                 print("\tIncompatible, ha de ser s o n (si/no)")
@@ -204,6 +205,7 @@ def canviar_estat(db):
                     print("\t\tEditat")
                     break
                 elif ans == "n":
+                    print("\t\tNo s'ha editat")
                     break
                 else:
                     print("\tIncompatible, ha de ser s o n (si/no)")
@@ -217,6 +219,7 @@ def canviar_estat(db):
                     print("\t\tEditat")
                     break
                 elif ans == "n":
+                    print("\t\tNo s'ha editat")
                     break
                 else:
                     print("\tIncompatible, ha de ser s o n (si/no)")
@@ -321,4 +324,4 @@ while True:  # Bucle infinit fins que es surti del programa
                 raise ValueError
     except ValueError:
         os.system("cls")
-        input("invàlid")
+        input("invàlid, aquesta opció no existeix")
