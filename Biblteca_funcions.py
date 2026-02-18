@@ -13,7 +13,6 @@ def input_categor(db, demanarPrest=False):
     Retorna:
       Un dict amb les dades introduïdes.
     """
-
     dades = dict()
     # Iterem sobre les categories de la plantilla
     for categoria in zip(db[0].keys(), db[0].values()):
