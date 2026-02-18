@@ -237,11 +237,14 @@ def llistat_llibres(db, specific=None):
         # Itera pel llibre específic i imprimeix les seves categories
         for index in range(1, len(db)):
             for categoria in zip(db[index].keys(), db[index].values()):
-                match categoria[1]:
-                    case str():
-                        print(f"\t\t{categoria[0]}: {categoria[1].title()}")
-                    case __:
-                        print(f"\t\t{categoria[0]}: {categoria[1]}")
+                if categoria[0] is "Títol":
+                    print(f"\t\t{categoria[0]}: {categoria[1].capitalize()}")
+                else:
+                    match categoria[1]:
+                        case str():
+                            print(f"\t\t{categoria[0]}: {categoria[1].title()}")
+                        case __:
+                            print(f"\t\t{categoria[0]}: {categoria[1]}")
             print('-' * term_size.columns)
     else:
         # Imprimeix tots els llibres amb format
