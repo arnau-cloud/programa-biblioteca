@@ -237,7 +237,11 @@ def llistat_llibres(db, specific=None):
         # Itera pel llibre específic i imprimeix les seves categories
         for index in range(1, len(db)):
             for categoria in zip(db[index].keys(), db[index].values()):
-                print(f"\t\t{categoria[0]}: {categoria[1]}")
+                match categoria[1]:
+                    case str():
+                        print(f"\t\t{categoria[0]}: {categoria[1].title()}")
+                    case __:
+                        print(f"\t\t{categoria[0]}: {categoria[1]}")
             print('-' * term_size.columns)
     else:
         # Imprimeix tots els llibres amb format
@@ -261,5 +265,5 @@ def llistar_autors(db):
 
     print('-' * term_size.columns)
     for a in llistat:  # Imprimeix el conjunt amb format
-        print(f"\t\t{a}")
+        print(f"\t\t{a.title()}")
         print('-' * term_size.columns)

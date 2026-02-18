@@ -237,7 +237,11 @@ def llistat_llibres(db, specific=None):
         # Itera pel llibre específic i imprimeix les seves categories
         for index in range(1, len(db)):
             for categoria in zip(db[index].keys(), db[index].values()):
-                print(f"\t\t{categoria[0]}: {categoria[1]}")
+                match categoria[1]:
+                    case str():
+                        print(f"\t\t{categoria[0]}: {categoria[1].title()}")
+                    case __:
+                        print(f"\t\t{categoria[0]}: {categoria[1]}")
             print('-' * term_size.columns)
     else:
         # Imprimeix tots els llibres amb format
@@ -261,17 +265,17 @@ def llistar_autors(db):
 
     print('-' * term_size.columns)
     for a in llistat:  # Imprimeix el conjunt amb format
-        print(f"\t\t{a}")
+        print(f"\t\t{a.title()}")
         print('-' * term_size.columns)
 
 
 llibres = [  # Biblioteca amb llibres
     {"Títol": "", "Autor": "", "Any-publicació": int(), "Prestat": bool()},
-    {"Títol": "Cien años de soledad", "Autor": "Gabriel García Márquez",
+    {"Títol": "cien años de soledad", "Autor": "gabriel García Márquez",
      "Any": 1967, "Prestat": False},
-    {"Títol": "1984", "Autor": "George Orwell",
+    {"Títol": "1984", "Autor": "george orwell",
      "Any": 1949, "Prestat": True},
-    {"Títol": "La sombra del viento", "Autor": "Carlos Ruiz Zafón",
+    {"Títol": "la sombra del viento", "Autor": "carlos ruiz zafón",
      "Any": 2001, "Prestat": False},
     ]
 
