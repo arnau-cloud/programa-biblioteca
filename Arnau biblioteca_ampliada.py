@@ -316,6 +316,11 @@ def llistat_llibres(db, specific=None):
             for categoria in zip(db[index].keys(), db[index].values()):
                 if categoria[0] == "Títol":
                     print(f"\t\t{categoria[0]}: {categoria[1].capitalize()}")
+                elif categoria[0] == "Prestat":
+                    if categoria[1] is True:
+                        print(f"\t\t{categoria[0]}: Sí")
+                    else:
+                        print(f"\t\t{categoria[0]}: No")
                 else:
                     match categoria[1]:
                         case str():
@@ -326,7 +331,19 @@ def llistat_llibres(db, specific=None):
     else:
         # Imprimeix tots els llibres amb format
         for categoria in zip(specific.keys(), specific.values()):
-            print(f"{categoria[0]}: {categoria[1]}", end=", ")
+            if categoria[0] == "Títol":
+                print(f"\t\t{categoria[0]}: {categoria[1].capitalize()}", end=", ")
+            elif categoria[0] == "Prestat":
+                if categoria[1] is True:
+                    print(f"\t\t{categoria[0]}: Sí", end=", ")
+                else:
+                    print(f"\t\t{categoria[0]}: No", end=", ")
+            else:
+                match categoria[1]:
+                    case str():
+                        print(f"\t{categoria[0]}: {categoria[1].title()}", end=", ")
+                    case __:
+                        print(f"\t{categoria[0]}: {categoria[1]}", end=", ")
 
 
 def llistar_autors(db):
