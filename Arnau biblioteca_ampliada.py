@@ -332,12 +332,12 @@ def llistat_llibres(db, specific=None):
         # Imprimeix tots els llibres amb format
         for categoria in zip(specific.keys(), specific.values()):
             if categoria[0] == "Títol":
-                print(f"\t\t{categoria[0]}: {categoria[1].capitalize()}", end=", ")
+                print(f"\t{categoria[0]}: {categoria[1].capitalize()}", end=", ")
             elif categoria[0] == "Prestat":
                 if categoria[1] is True:
-                    print(f"\t\t{categoria[0]}: Sí", end=", ")
+                    print(f"\t{categoria[0]}: Sí", end=", ")
                 else:
-                    print(f"\t\t{categoria[0]}: No", end=", ")
+                    print(f"\t{categoria[0]}: No", end=", ")
             else:
                 match categoria[1]:
                     case str():
