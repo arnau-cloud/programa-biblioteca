@@ -367,7 +367,7 @@ def llistar_autors(db):
 
 
 llibres = [  # Biblioteca amb llibres
-    {"Títol": "", "Autor": "", "Any-publicació": int(), "Prestat": False},
+    {"Títol": "", "Autor": "", "Any": int(), "Prestat": False},
     {"Títol": "cien años de soledad", "Autor": "gabriel García Márquez",
      "Any": 1967, "Prestat": False},
     {"Títol": "1984", "Autor": "george orwell",
