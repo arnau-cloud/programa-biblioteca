@@ -11,13 +11,40 @@ def carrega_fitxer(dir, db):
       db --> diccionari que s'ha de crear/modificar
     """
     with open(dir, "r", encoding="utf-8") as fitxer:
-        for linea, index in enumerate(fitxer, 0):
-            print("Toiletejada important")
-            print(linea)
+        b = list()
+        for index, linea in enumerate(fitxer, 0):
             if index == 0:
-                print(linea)
-            if linea.strip():
-                linea.split(",")
+                for a in linea.split(","):
+                    c = (a.strip().split(":"))
+                    c[1] = c[1].strip()
+                    if c[1].isnumeric() is True:
+                        c[1] = int(c[1])
+                    else:
+                        match c[1]:
+                            case "True":
+                                b.append({c[0]:True})
+                                continue
+                            case "False":
+                                b.append({c[0]:False})
+                                continue
+                            case "int()":
+                                b.append({c[0]:int()})
+                                continue
+                            case '""':
+                                b.append({c[0]:str()})
+                                continue
+            else:
+                for a in linea.split(","):
+                    print(b[0].keys()[0])
+
+            print(b)
+
+                        
+            #else:
+                # if a.isnumeric():
+                    #     a = int(a.strip())
+                    # else:
+                    #     a.strip()
 
 def escriu_fitxer(dir, db):
     """

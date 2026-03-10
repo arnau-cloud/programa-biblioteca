@@ -1,4 +1,4 @@
-"Títol": "", "Autor": "", "Any": int(), "Prestat": False
-cien años de soledad, gabriel garcía márquez "Any": 1967, "Prestat": False,
-"Títol": "1984", "Autor": "george orwell", "Any": 1949, "Prestat": True,
-"Títol": "la sombra del viento", "Autor": "carlos ruiz zafón", "Any": 2001, "Prestat": False
+Títol: "", Autor: "", Any: int(), Prestat: False
+cien años de soledad, gabriel garcía márquez, 1967, False,
+1984, george orwell, 1949, True,
+la sombra del viento, carlos ruiz zafón, 2001, False
