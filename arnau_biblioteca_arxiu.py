@@ -11,9 +11,11 @@ def carrega_fitxer(dir, db):
       db --> diccionari que s'ha de crear/modificar
     """
     with open(dir, "r", encoding="utf-8") as fitxer:
-        b = list()
+        dict_def = []
+        dict_temp = dict()
         for index, linea in enumerate(fitxer, 0):
             if index == 0:
+                print(linea.split(","))
                 for a in linea.split(","):
                     c = (a.strip().split(":"))
                     c[1] = c[1].strip()
@@ -22,22 +24,36 @@ def carrega_fitxer(dir, db):
                     else:
                         match c[1]:
                             case "True":
-                                b.append({c[0]:True})
+                                dict_temp.update({c[0]:True})
                                 continue
                             case "False":
-                                b.append({c[0]:False})
+                                dict_temp.update({c[0]:False})
                                 continue
                             case "int()":
-                                b.append({c[0]:int()})
+                                dict_temp.update({c[0]:int()})
+                                continue
+                            case int():
+                                dict_temp.update({c[0]:int()})
                                 continue
                             case '""':
-                                b.append({c[0]:str()})
+                                dict_temp.update({c[0]:str()})
                                 continue
+                dict_def.append(dict_temp.copy())
+                dict_temp.clear()
             else:
-                for a in linea.split(","):
-                    print(b[0].keys()[0])
+                keys = list(dict_def[0].keys())
+                print(keys)
+                print(linea.split(","))
+                for index_key, element in enumerate(linea.split(","), 0):
+                    match keys[index_key].strip().lower():
+                        case "any":
+                            dict_temp.update({keys[index_key] : element.strip()})
+                print(dict_temp)
+                dict_def.append(dict_temp.copy())
+                index_key = 0
+                dict_temp.clear()
 
-            print(b)
+            print(dict_def)
 
                         
             #else:
