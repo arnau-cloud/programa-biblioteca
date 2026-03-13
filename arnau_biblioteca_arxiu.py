@@ -15,8 +15,8 @@ def carrega_fitxer(dir, db):
         dict_temp = dict()
         for index, linea in enumerate(fitxer, 0):
             if index == 0:
-                print(linea.split(","))
-                for a in linea.split(","):
+                print(linea.split(";"))
+                for a in linea.split(";"):
                     c = (a.strip().split(":"))
                     c[1] = c[1].strip()
                     if c[1].isnumeric() is True:
@@ -43,8 +43,8 @@ def carrega_fitxer(dir, db):
             else:
                 keys = list(dict_def[0].keys())
                 print(keys)
-                print(linea.split(","))
-                for index_key, element in enumerate(linea.split(","), 0):
+                print(linea.split(";"))
+                for index_key, element in enumerate(linea.split(";"), 0):
                     match keys[index_key].strip().lower():
                         case "any":
                             dict_temp.update({keys[index_key] : element.strip()})
