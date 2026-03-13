@@ -1,4 +1,4 @@
 Títol: ""; Autor: ""; Any: int(); Prestat: False
 cien años de soledad; gabriel garcía márquez; 1967; False;
 1984; george orwell; 1949; True;
-la sombra del viento; carlos ruiz zafón; 2001; False
+la sombra del viento; carlos ruiz zafón; 2001; False                                            

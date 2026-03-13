@@ -1,5 +1,4 @@
 import os
-import csv
 term_size = os.get_terminal_size()  # Espai a la terminal per imprimir linies
 
 
@@ -11,24 +10,57 @@ def carrega_fitxer(dir, db):
       dir --> directori que s'ha de llegir
       db --> diccionari que s'ha de crear/modificar
     """
-    with open(dir, "r", encoding="utf-8", newline="") as fitxer:
+    with open(dir, "r", encoding="utf-8") as fitxer:
+        dict_def = []
         dict_temp = dict()
-        dict_toilet = list()
-        lectura = csv.reader(fitxer, delimiter=";")
-        for index, toilet in enumerate(lectura, 0):
-            print(toilet)
+        for index, linea in enumerate(fitxer, 0):
             if index == 0:
-                for water in toilet:
-                    water = water.split(":")
-                    match water[1]:
-                        case "str":
-                            dict_temp.update({water[0]:str})
-                        case "int":
-                            dict_temp.update({water[0]:int})
-                        case "bool":
-                            dict_temp.update({water[0]:False})
+                print(linea.split(";"))
+                for a in linea.split(";"):
+                    c = (a.strip().split(":"))
+                    c[1] = c[1].strip()
+                    if c[1].isnumeric() is True:
+                        c[1] = int(c[1])
+                    else:
+                        match c[1]:
+                            case "True":
+                                dict_temp.update({c[0]:True})
+                                continue
+                            case "False":
+                                dict_temp.update({c[0]:False})
+                                continue
+                            case "int()":
+                                dict_temp.update({c[0]:int()})
+                                continue
+                            case int():
+                                dict_temp.update({c[0]:int()})
+                                continue
+                            case '""':
+                                dict_temp.update({c[0]:str()})
+                                continue
+                dict_def.append(dict_temp.copy())
+                dict_temp.clear()
+            else:
+                keys = list(dict_def[0].keys())
+                print(keys)
+                print(linea.split(";"))
+                for index_key, element in enumerate(linea.split(";"), 0):
+                    match keys[index_key].strip().lower():
+                        case "any":
+                            dict_temp.update({keys[index_key] : element.strip()})
                 print(dict_temp)
+                dict_def.append(dict_temp.copy())
+                index_key = 0
+                dict_temp.clear()
 
+            print(dict_def)
+
+                        
+            #else:
+                # if a.isnumeric():
+                    #     a = int(a.strip())
+                    # else:
+                    #     a.strip()
 
 def escriu_fitxer(dir, db):
     """
