@@ -16,18 +16,37 @@ def carrega_fitxer(dir, db):
         dict_toilet = list()
         lectura = csv.reader(fitxer, delimiter=";")
         for index, toilet in enumerate(lectura, 0):
+            dict_temp.clear()
             print(toilet)
             if index == 0:
                 for water in toilet:
                     water = water.split(":")
                     match water[1]:
                         case "str":
-                            dict_temp.update({water[0]:str})
+                            dict_temp.update({water[0]:str()})
                         case "int":
-                            dict_temp.update({water[0]:int})
+                            dict_temp.update({water[0]:int()})
                         case "bool":
                             dict_temp.update({water[0]:False})
                 print(dict_temp)
+            else:
+                print(dict_toilet[0])
+                for index, element in enumerate(zip(dict_toilet[0].keys(),dict_toilet[0].values()), 0):
+                    match element[1]:
+                        case bool():
+                            if element[0] == False:
+                                dict_temp.update({element[0] : False})
+                            else:
+                                dict_temp.update({element[0] : True})
+                            continue
+                        case str():
+                            dict_temp.update({element[0] : toilet[index]})
+                            continue
+                        case int():
+                            dict_temp.update({element[0] : int(toilet[index])})
+                            continue
+            dict_toilet.append(dict_temp.copy())
+        print(dict_toilet)
 
 
 def escriu_fitxer(dir, db):
