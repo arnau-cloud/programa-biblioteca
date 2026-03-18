@@ -1,4 +1,5 @@
-Títol:str;Autor:str;Any:int;Prestat:bool;ISBN:int
+Títol;Autor;Any;Prestat;ISBN
+str;str;int;bool;int
 1984;George Orewll;1949;False
 Aura;Toilet;1234;False
 LOLO;Toilet2;1234;True

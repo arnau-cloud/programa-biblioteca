@@ -12,46 +12,19 @@ def carrega_fitxer(dir, db):
       db --> diccionari que s'ha de crear/modificar
     """
     with open(dir, "r", encoding="utf-8", newline="") as fitxer:
-        dict_temp = dict()
-        dict_toilet = list()
-        lectura = csv.reader(fitxer, delimiter=";")
-        for index, toilet in enumerate(lectura, 0):
-            dict_temp.clear()
-            print(toilet)
+        reader = csv.DictReader(fitxer, delimiter=";")
+        row = {}
+        for index, fila in enumerate(reader, 0):
             if index == 0:
-                for water in toilet:
-                    water = water.split(":")
-                    match water[1]:
+                for lad in zip(fila.keys(), fila.values()):
+                    match lad[1]:
                         case "str":
-                            dict_temp.update({water[0]:str()})
+                            row.update({lad[0]:str()})
                         case "int":
-                            dict_temp.update({water[0]:int()})
+                            row.update({lad[0]:int()})
                         case "bool":
-                            dict_temp.update({water[0]:False})
-                print(dict_temp)
-            else:
-                print(dict_toilet[0])
-                for index, element in enumerate(zip(dict_toilet[0].keys(),dict_toilet[0].values()), 0):
-                    try:
-                        match element[1]:
-                            case bool():
-                                if toilet[index] == 'True':
-                                    dict_temp.update({element[0] : True})
-                                else:
-                                    dict_temp.update({element[0] : False})
-                                continue
-                            case str():
-                                dict_temp.update({element[0] : toilet[index]})
-                                continue
-                            case int():
-                                dict_temp.update({element[0] : int(toilet[index])})
-                                continue
-                    except IndexError:
-                        dict_temp.update({element[0] : None})
-                        continue
-            dict_toilet.append(dict_temp.copy())
-        print(dict_toilet)
-
+                            row.update({lad[0]:False})
+            print(row)
 
 def escriu_fitxer(dir, db):
     """
