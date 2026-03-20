@@ -13,19 +13,40 @@ def carrega_fitxer(dir, db):
     """
     with open(dir, "r", encoding="utf-8", newline="") as fitxer:
         reader = csv.DictReader(fitxer, delimiter=";")
-        row = {}
+        header = {}
+        temp = {}
+        dict_def = []
         for index, fila in enumerate(reader, 0):
             if index == 0:
+                temp.clear()
                 for lad in zip(fila.keys(), fila.values()):
                     match lad[1]:
                         case "str":
-                            row.update({lad[0]:str()})
+                            header.update({lad[0]:str()})
                         case "int":
-                            row.update({lad[0]:int()})
+                            header.update({lad[0]:int()})
                         case "bool":
-                            row.update({lad[0]:False})
-            print(row)
-
+                            header.update({lad[0]:False})
+                dict_def.append(header)
+            else:
+                temp.clear()
+                for index, toilet in enumerate(fila.values(),0):
+                    if toilet is None or '':
+                        temp.update({list(header.keys())[index]: None})
+                    else:
+                        match list(header.values())[index]:
+                            case bool():
+                                if toilet == 'True':
+                                    temp.update({list(header.keys())[index]: True})
+                                else:
+                                    temp.update({list(header.keys())[index]: False})
+                            case int():
+                                temp.update({list(header.keys())[index]: int(toilet)})
+                            case str():
+                                temp.update({list(header.keys())[index]: toilet})
+                dict_def.append(temp.copy())
+        for gungingang in dict_def:
+            print(gungingang)
 def escriu_fitxer(dir, db):
     """
     Carrega les dades de l'arxiu dins un diccionari
