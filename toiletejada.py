@@ -1,3 +1,6 @@
 from arnau_biblioteca_arxiu_soc_imbecil import *
 
-carrega_fitxer("Arxius/arxiu-dictread.csv", None)
+llibres = []
+
+carrega_fitxer("Arxius/arxiu-dictread.csv", llibres)
+print(llibres)

@@ -1,5 +1,6 @@
 import os
 import csv
+import time
 term_size = os.get_terminal_size()  # Espai a la terminal per imprimir linies
 
 
@@ -16,7 +17,6 @@ def carrega_fitxer(dir, db):
             reader = csv.DictReader(fitxer, delimiter=";")
             header = {}
             temp = {}
-            dict_def = []
             for index, fila in enumerate(reader, 0):
                 if index == 0:
                     temp.clear()
@@ -48,7 +48,8 @@ def carrega_fitxer(dir, db):
                     db.append(temp.copy())
         except:
             print(f"toiletejada a: {index+2}")
-def escriu_fitxer(dir, db):
+
+def guardar_fitxer(dir, db):
     """
     Carrega les dades de l'arxiu dins un diccionari
 
@@ -56,6 +57,7 @@ def escriu_fitxer(dir, db):
       dir --> directori que s'ha de crear/modificar
       db --> diccionari que s'ha de llegir
     """
+
 
 def input_categor(db, demanarPrest=False):
     """
@@ -421,84 +423,85 @@ def llistar_autors(db):
         print('-' * term_size.columns)
 
 
-llibres = [  # Biblioteca amb llibres
-    {"Títol": "", "Autor": "", "Any": int(), "Prestat": False},
-    {"Títol": "cien años de soledad", "Autor": "gabriel García Márquez",
-     "Any": 1967, "Prestat": False},
-    {"Títol": "1984", "Autor": "george orwell",
-     "Any": 1949, "Prestat": True},
-    {"Títol": "la sombra del viento", "Autor": "carlos ruiz zafón",
-     "Any": 2001, "Prestat": False},
-    {"Títol": "a", "Autor": "a",
-     "Any": 67, "Prestat": True},
-    {"Títol": "b", "Autor": "b",
-     "Any": 67, "Prestat": True},
-    {"Títol": "e", "Autor": "e",
-     "Any": 67, "Prestat": True},
-    ]
+if os.path.exists("Arxius/pickle.txt"):
+    llibres = []
+    carrega_fitxer("Arxius/arxiu-dictread.csv",llibres)
+else:
+    #Carreguem llibreria estandart
+    print("No s'ha detectat cap llibreria, important una predeterminada")
+    llibres = [  # Biblioteca amb llibres
+        {"Títol": "", "Autor": "", "Any": int(), "Prestat": False},
+        {"Títol": "cien años de soledad", "Autor": "gabriel García Márquez",
+        "Any": 1967, "Prestat": False},
+        {"Títol": "1984", "Autor": "george orwell",
+        "Any": 1949, "Prestat": True},
+        {"Títol": "la sombra del viento", "Autor": "carlos ruiz zafón",
+        "Any": 2001, "Prestat": False}
+        ]
+    time.sleep(2)
 
-# while True:  # Bucle infinit fins que es surti del programa
-#     try:
-#         os.system("cls")  # Netejem la terminal i imprimim les opcións
-#         print('-' * term_size.columns)
-#         print("""
-#             1. Afegir llibre
-#             2. Eliminar llibre
-#             3. Llistar llibres
-#             4. Llistar autors
-#             5. Canviar estat llibre (préstec)
-#             6. Llistar en base a l'any
-#             7. Estadística
-#             8. Disponibilitat total
-#             9. Sortir
-#         """)
-#         opcio = int(input("Introdueixi una opció: "))
-#         match opcio:  # Mirem quina opció s'ha seleccionat
-#             case 1:
-#                 # Cada funció executa la acció específica i espera
-#                 # input per sortir
-#                 os.system("cls")
-#                 afegir_llib(llibres)
-#                 input()
-#             case 2:
-#                 os.system("cls")
-#                 elim_llibre(llibres)
-#                 input()
-#             case 3:
-#                 os.system("cls")
-#                 if not llibres:
-#                     print("No hi ha llibres a la biblioteca.")
-#                 else:
-#                     llistat_llibres(llibres)
-#                 input()
-#             case 4:
-#                 os.system("cls")
-#                 if not llibres:
-#                     print("No hi ha llibres a la biblioteca.")
-#                 else:
-#                     llistar_autors(llibres)
-#                 input()
-#             case 5:
-#                 os.system("cls")
-#                 canviar_estat(llibres)
-#                 input()
-#             case 6:
-#                 os.system("cls")
-#                 llistar_any(llibres)
-#                 input()
-#             case 7:
-#                 os.system("cls")
-#                 estadistiques(llibres)
-#                 input()
-#             case 8:
-#                 os.system("cls")
-#                 tots_disponibles(llibres)
-#                 input()
-#             case 9:
-#                 break
-#             case _:
-#                 raise ValueError
-#     except ValueError:
-#         os.system("cls")
-#         print('-' * term_size.columns)
-#         input("\n\tinvàlid, aquesta opció no existeix")
+while True:  # Bucle infinit fins que es surti del programa
+    try:
+        os.system("cls")  # Netejem la terminal i imprimim les opcións
+        print('-' * term_size.columns)
+        print("""
+            1. Afegir llibre
+            2. Eliminar llibre
+            3. Llistar llibres
+            4. Llistar autors
+            5. Canviar estat llibre (préstec)
+            6. Llistar en base a l'any
+            7. Estadística
+            8. Disponibilitat total
+            9. Sortir
+        """)
+        opcio = int(input("Introdueixi una opció: "))
+        match opcio:  # Mirem quina opció s'ha seleccionat
+            case 1:
+                # Cada funció executa la acció específica i espera
+                # input per sortir
+                os.system("cls")
+                afegir_llib(llibres)
+                input()
+            case 2:
+                os.system("cls")
+                elim_llibre(llibres)
+                input()
+            case 3:
+                os.system("cls")
+                if not llibres:
+                    print("No hi ha llibres a la biblioteca.")
+                else:
+                    llistat_llibres(llibres)
+                input()
+            case 4:
+                os.system("cls")
+                if not llibres:
+                    print("No hi ha llibres a la biblioteca.")
+                else:
+                    llistar_autors(llibres)
+                input()
+            case 5:
+                os.system("cls")
+                canviar_estat(llibres)
+                input()
+            case 6:
+                os.system("cls")
+                llistar_any(llibres)
+                input()
+            case 7:
+                os.system("cls")
+                estadistiques(llibres)
+                input()
+            case 8:
+                os.system("cls")
+                tots_disponibles(llibres)
+                input()
+            case 9:
+                break
+            case _:
+                raise ValueError
+    except ValueError:
+        os.system("cls")
+        print('-' * term_size.columns)
+        input("\n\tinvàlid, aquesta opció no existeix")

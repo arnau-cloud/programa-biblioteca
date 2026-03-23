@@ -1,5 +1,5 @@
-Títol;Autor;Any;Prestat;ISBN;Categoria
-str;str;int;bool;int;str
-1984;George Orewll;1949;False;;Toilet
-Aura;Toilet;1234;False;67
-LOLO;Toilet2;1234;True;;Toilet
+Títol;Autor;Any;Prestat;ISBN
+str;str;int;bool;int
+1984;George Orwell;1949;False;
+Aura;Toilet;1234;False;
+LOLO;Toilet2;1234;True;
