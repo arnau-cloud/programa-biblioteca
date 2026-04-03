@@ -19,7 +19,6 @@ def carrega_fitxer(dir, db):
             temp = {}
             for index, fila in enumerate(reader, 0):
                 if index == 0:
-                    temp.clear()
                     for lad in zip(fila.keys(), fila.values()):
                         match lad[1]:
                             case "str":
@@ -32,7 +31,7 @@ def carrega_fitxer(dir, db):
                 else:
                     temp.clear()
                     for index2, element in enumerate(fila.values(),0):
-                        if element == (None or ''):
+                        if element is None or element == '':
                             temp.update({list(header.keys())[index2]: None})
                         else:
                             match list(header.values())[index2]:
@@ -46,17 +45,36 @@ def carrega_fitxer(dir, db):
                                 case str():
                                     temp.update({list(header.keys())[index2]: element})
                     db.append(temp.copy())
-        except:
-            print(f"toiletejada a: {index+2}")
+        except Exception as e: 
+            print(f"toiletejada a: {index+2}\nError: {e}")
 
 def guardar_fitxer(dir, db):
     """
-    Carrega les dades de l'arxiu dins un diccionari
+    Guarda les dades del diccionari dins l'arxiu CSV.
 
-    Paratmetres:
+    Paràmetres:
       dir --> directori que s'ha de crear/modificar
-      db --> diccionari que s'ha de llegir
+      db --> llista de dicts que s'ha de llegir (db[0] = plantilla de tipus)
     """
+    with open(dir, "w", encoding="utf-8", newline="") as fitxer:
+        writer = csv.DictWriter(fitxer, fieldnames=db[0].keys(), delimiter=";")
+
+        # Escrivim la fila de tipus (la plantilla db[0])
+        tipus = {}
+        for clau, valor in db[0].items():
+            match valor:
+                case bool():
+                    tipus[clau] = "bool"
+                case int():
+                    tipus[clau] = "int"
+                case str():
+                    tipus[clau] = "str"
+        writer.writeheader()
+        writer.writerow(tipus)
+
+        # Escrivim la resta de files (els llibres)
+        for entrada in db[1:]:
+            writer.writerow(entrada)
 
 
 def input_categor(db, demanarPrest=False):
@@ -149,7 +167,6 @@ def cerc_llib(db, parametres):
             llistat2.pop("Prestat")
         if llistat == llistat2:
             return index - 1  # Retornem al posició i compensem la plantilla
-            break
 
 
 def afegir_llib(db, llibre=None):
@@ -259,8 +276,8 @@ def estadistiques(db):
     """
     n_total = len(db) - 1  # Tenim en compte la plantilla
     s_prestat = 0
-    n_prestat = -1  # Tenim en compte la plantilla
-    for index in range(0, len(db)):
+    n_prestat = 0  # Tenim en compte la plantilla
+    for index in range(1, len(db)):
         if db[index]["Prestat"] is True:
             s_prestat += 1  # L'afegim al contador
         else:
@@ -286,7 +303,7 @@ def tots_disponibles(db):
             "\n\tEstàs segur?(s/n): "
         ).lower().strip()
         if ans == "s":
-            for index in range(0, len(db)):
+            for index in range(1, len(db)):
                 if db[index]["Prestat"] is True:
                     db[index].update({"Prestat": False})
             os.system("cls")
@@ -501,6 +518,7 @@ while True:  # Bucle infinit fins que es surti del programa
                 break
             case _:
                 raise ValueError
+        guardar_fitxer("Arxius/arxiu-dictread.csv",llibres)
     except ValueError:
         os.system("cls")
         print('-' * term_size.columns)
